@@ -27,20 +27,20 @@ def validate_even(value):
 class User(models.Model):
 
     userID = models.CharField(
-        max_length=20, primary_key=True, verbose_name='用户ID', editable=False)
-    groupID = models.CharField(max_length=20,default='',verbose_name='所在队伍ID',editable=False)
+        max_length=20, primary_key=True, verbose_name='用户ID')
+    groupID = models.CharField(max_length=20,default='',verbose_name='所在队伍ID')
     userName = models.CharField(max_length=20, unique=True, verbose_name='用户名')
     passWord = models.CharField(max_length=16, validators=[
                                 validate_even], verbose_name='用户密码')
     userEmail = models.EmailField(verbose_name='用户邮箱')
-    userPhone = models.BigIntegerField(max_length=11, verbose_name='手机')
+    userPhone = models.BigIntegerField(verbose_name='手机')
     userSex = models.CharField(max_length=4,
                                choices=(('m', 'male'),
                                         ('f', 'female')),
                                blank=True, verbose_name='性别')
-    userNo = models.IntegerField(max_length=11,null=False,verbose_name='学号')
+    userNo = models.CharField(max_length=11,null=False,verbose_name='学号')
     userSchool = models.CharField(max_length=10,verbose_name='学校')
-    userStats = models.CharField()
+    userStats = models.CharField(max_length=5)
 
     class Meta:
         db_table = 'Users'#表名
@@ -52,10 +52,10 @@ class User(models.Model):
 
 class Group(models.Model):
 
-    groupID = models.CharField(max_length=20,primary_key=True,verbose_name='队伍ID',editable=False)
+    groupID = models.CharField(max_length=20,primary_key=True,verbose_name='队伍ID')
     groupName = models.CharField(max_length=20,verbose_name='队伍名称')
     groupHeadID = models.ForeignKey(User,on_delete=models.CASCADE,to_field='userID',verbose_name='队长ID')
-    groupCount = models.IntegerField(max_length=1,default=1,verbose_nam='队伍人数')
+    groupCount = models.IntegerField(default=1,verbose_name='队伍人数')
 
     class Meta:
         db_table = 'Groups'
@@ -64,9 +64,9 @@ class Group(models.Model):
 
 class GroupGrade(models.Model):
 
-    groupID = models.ForeignKey(Group, on_delete=models.CASCADE,to_field='groupID',editable=False,verbose_name='队伍ID')
+    groupID = models.ForeignKey(Group, on_delete=models.CASCADE,to_field='groupID',verbose_name='队伍ID')
 
-    Time = models.DateTimeField(auto_now=True,auto_now_add=True,verbose_name='提交时间')
+    Time = models.DateTimeField(auto_now_add=True,verbose_name='提交时间')
     groupScore = models.FloatField(verbose_name='得分')
 
 
@@ -79,7 +79,7 @@ def user_data_path(instance,filename):
     '''
     用户文件上传位置
     '''
-    return 'user_{0}/{1}'.format(instance.uploadGroupID,filename)
+    return 'data/user_{0}/{1}'.format(instance.uploadGroupID,filename)
 
 
 class FileModel(models.Model):

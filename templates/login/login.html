@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>登录</title>
+</head>
+<body>
+	<form action="login/login.html">
+		{% csrf_token %}
+		<p>用户名:{{ user.userID }}</p>
+		<p>密码:{{ user.passWord }}</p>
+
+	</form>
+	
+</body>
+</html>
