@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>注册</title>
+</head>
+<body>
+	<form action="login/register.html">
+		{% csrf_token %}
+		<p>帐号:	{{ user.userID }}</p>
+		<p>姓名: {{ user.userName }}</p>
+		<p>密码: {{ user.password }}</p>
+		<p>邮箱: {{ user.userEmail }}</p>
+		<p>手机: {{ user.userPhone }}</p>
+		<p>性别: {{ user.userSex }}</p>
+		<p>学号: {{ user.userNo }}</p>
+		<p>学校: {{ user.userSchool }}</p>
+		<input type="submit" name="register" value="注册">
+		<a href="{% url 'login:index' %}"><input type="button" name="back" value="返回"></a>
+	</form>
+</body>
+</html>

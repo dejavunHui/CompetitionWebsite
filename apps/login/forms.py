@@ -8,7 +8,7 @@ class CheckLoginForm(ModelForm):
 
 	class Meta:
 		model = User
-		fields = ['userID','passWord']
+		fields = ['userID','password']
 		widgets = {
 			'passWord':PasswordInput(attrs={'cols':20,'rows':10})
 		}
@@ -21,8 +21,8 @@ class CheckRegisterForm(ModelForm):
 	class Meta:
 
 		model = User
-		fields = ['userID','userName','passWord','userEmail','userPhone',
+		fields = ['userID','userName','password','userEmail','userPhone',
 					'userSex','userNo','userSchool']
 		widgets = {
-			'passWord':PasswordInput(attrs={'cols':20,'rows':10})
+			'passWord':PasswordInput(attrs={'cols':20,'rows':10}),
 		}

@@ -4,11 +4,15 @@
 	<title>登录</title>
 </head>
 <body>
-	<form action="login/login.html">
+	<form action="/login/" method="post">
 		{% csrf_token %}
 		<p>用户名:{{ user.userID }}</p>
-		<p>密码:{{ user.passWord }}</p>
-
+		<p>密码:{{ user.password }}</p>
+		{% if message %}
+		<p><strong> {{ message }} </strong></p>
+		{% endif %}
+		<input type="submit" name="login" value="登录">
+		<a href="{% url 'login:register' %}"><input type="button" name="register" value="注册"></a>
 	</form>
 	
 </body>

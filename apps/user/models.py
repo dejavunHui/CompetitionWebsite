@@ -1,7 +1,9 @@
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
-
+from django.contrib.auth.base_user import AbstractBaseUser
+from django.contrib.auth.models import User
+from django.core.mail import send_mail
 # Create your models here.
 
 
@@ -24,14 +26,12 @@ def validate_even(value):
         )
 
 
-class User(models.Model):
+class User(AbstractBaseUser):
 
     userID = models.CharField(
         max_length=20, primary_key=True, verbose_name='用户ID')
     groupID = models.CharField(max_length=20,default='',verbose_name='所在队伍ID')
     userName = models.CharField(max_length=20, unique=True, verbose_name='用户名')
-    passWord = models.CharField(max_length=16, validators=[
-                                validate_even], verbose_name='用户密码')
     userEmail = models.EmailField(verbose_name='用户邮箱')
     userPhone = models.BigIntegerField(verbose_name='手机')
     userSex = models.CharField(max_length=4,
@@ -40,7 +40,13 @@ class User(models.Model):
                                blank=True, verbose_name='性别')
     userNo = models.CharField(max_length=11,null=False,verbose_name='学号')
     userSchool = models.CharField(max_length=10,verbose_name='学校')
-    userStats = models.CharField(max_length=5)
+    active = models.BooleanField(default=False,verbose_name='用户状态')
+
+    EMAIL_FIELD = 'userEmail'
+    USERNAME_FIELD = 'userID'
+    def email_user(self, subject, message, from_email=None, **kwargs):
+        """Send an email to this user."""
+        send_mail(subject, message, from_email, [self.email], **kwargs)
 
     class Meta:
         db_table = 'Users'#表名
