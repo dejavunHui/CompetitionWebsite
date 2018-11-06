@@ -27,9 +27,9 @@ def validate_even(value):
 
 
 class User(AbstractBaseUser):
-
-    userID = models.CharField(
-        max_length=20, primary_key=True, verbose_name='用户ID')
+    ID = models.AutoField(primary_key=True)
+    userID = models.CharField(max_length=120,unique=True, verbose_name='用户ID')
+    password = models.CharField(max_length=120,verbose_name='密码')
     groupID = models.CharField(max_length=20,default='',verbose_name='所在队伍ID')
     userName = models.CharField(max_length=20, unique=True, verbose_name='用户名')
     userEmail = models.EmailField(verbose_name='用户邮箱')
@@ -43,14 +43,12 @@ class User(AbstractBaseUser):
     active = models.BooleanField(default=False,verbose_name='用户状态')
 
     EMAIL_FIELD = 'userEmail'
-    USERNAME_FIELD = 'userID'
+    USERNAME_FIELD = 'userName'
     def email_user(self, subject, message, from_email=None, **kwargs):
         """Send an email to this user."""
-        send_mail(subject, message, from_email, [self.email], **kwargs)
-
+        send_mail(subject, message, from_email, [self.email], **kwargs) 
     class Meta:
         db_table = 'Users'#表名
-        indexes = [models.Index(fields=['userID'])]
         verbose_name = '用户表'
 
 

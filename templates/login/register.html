@@ -4,7 +4,7 @@
 	<title>注册</title>
 </head>
 <body>
-	<form action="login/register.html">
+	<form action="/register/" method="post">
 		{% csrf_token %}
 		<p>帐号:	{{ user.userID }}</p>
 		<p>姓名: {{ user.userName }}</p>
@@ -14,6 +14,9 @@
 		<p>性别: {{ user.userSex }}</p>
 		<p>学号: {{ user.userNo }}</p>
 		<p>学校: {{ user.userSchool }}</p>
+		{% if message %}
+		<p><strong>{{ message }}</strong></p>
+		{% endif %}
 		<input type="submit" name="register" value="注册">
 		<a href="{% url 'login:index' %}"><input type="button" name="back" value="返回"></a>
 	</form>
